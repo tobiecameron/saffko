@@ -7,7 +7,7 @@ export default defineConfig({
   basePath: "/studio",
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || "",
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || "production",
-  title: "My Blog",
+  title: "B L O K H O U S E",
   schema: {
     types: schemaTypes,
   },

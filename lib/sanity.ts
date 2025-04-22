@@ -52,3 +52,26 @@ export const getPost = cache(async (slug: string) => {
     { slug },
   )
 })
+
+export const getSiteSettings = cache(async () => {
+  if (!projectId) {
+    // Return null if Sanity is not configured
+    console.warn("Sanity project ID not configured")
+    return null
+  }
+
+  return client.fetch(`
+    *[_type == "siteSettings"][0] {
+      title,
+      logo {
+        svgFile {
+          asset->{
+            url
+          }
+        },
+        width,
+        height
+      }
+    }
+  `)
+})

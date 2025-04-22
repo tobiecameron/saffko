@@ -1,0 +1,52 @@
+export default {
+  name: "siteSettings",
+  title: "Site Settings",
+  type: "document",
+  fields: [
+    {
+      name: "title",
+      title: "Site Title",
+      type: "string",
+    },
+    {
+      name: "logo",
+      title: "Logo",
+      type: "object",
+      fields: [
+        {
+          name: "svgFile",
+          title: "SVG Logo",
+          type: "file",
+          description: "Upload your SVG logo file",
+          options: {
+            accept: "image/svg+xml",
+          },
+        },
+        {
+          name: "width",
+          title: "Width (px)",
+          type: "number",
+          validation: (Rule: any) => Rule.positive(),
+          initialValue: 200,
+        },
+        {
+          name: "height",
+          title: "Height (px)",
+          type: "number",
+          validation: (Rule: any) => Rule.positive(),
+          initialValue: 200,
+        },
+      ],
+    },
+  ],
+  preview: {
+    select: {
+      title: "title",
+    },
+    prepare({ title }: any) {
+      return {
+        title: title || "Site Settings",
+      }
+    },
+  },
+}
