@@ -1,5 +1,6 @@
 import { getSiteSettings } from "@/lib/sanity"
 import Image from "next/image"
+import DebugInfo from "@/components/debug-info"
 
 export default async function Home() {
   const siteSettings = await getSiteSettings()
@@ -24,9 +25,9 @@ export default async function Home() {
         )}
 
         {/* Site Title */}
-        {/* {siteSettings?.title && (
+        {siteSettings?.title && siteSettings.title.trim() !== "" && (
           <h1
-            className="mt-[30px] text-xl font-bold text-white"
+            className="mt-[30px] text-xl font-bold text-white site-title"
             style={{
               marginTop: "30px",
               fontSize: "1.25rem",
@@ -36,14 +37,14 @@ export default async function Home() {
           >
             {siteSettings.title}
           </h1>
-        )} */}
+        )}
 
-        {/* Logo Text */}
-        {siteSettings?.logoText && (
+        {/* Logo Text - Only render if not empty */}
+        {siteSettings?.logoText && siteSettings.logoText.trim() !== "" && (
           <div
-            className="mt-4 font-mono text-[0.85rem] text-white"
+            className="mt-4 font-mono text-[0.85rem] text-white logo-text"
             style={{
-              marginTop: "3rem",
+              marginTop: "1rem",
               fontFamily: "monospace",
               fontSize: "0.85rem",
               color: "white",
@@ -53,6 +54,9 @@ export default async function Home() {
           </div>
         )}
       </div>
+
+      {/* Debug component - only visible in development */}
+      <DebugInfo data={siteSettings} />
     </div>
   )
 }

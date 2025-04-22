@@ -60,19 +60,27 @@ export const getSiteSettings = cache(async () => {
     return null
   }
 
-  return client.fetch(`
-    *[_type == "siteSettings"][0] {
-      title,
-      logoText,
-      logo {
-        svgFile {
-          asset->{
-            url
-          }
-        },
-        width,
-        height
+  try {
+    const settings = await client.fetch(`
+      *[_type == "siteSettings"][0] {
+        title,
+        logoText,
+        logo {
+          svgFile {
+            asset->{
+              url
+            }
+          },
+          width,
+          height
+        }
       }
-    }
-  `)
+    `)
+
+    console.log("Fetched site settings:", settings) // Debug log
+    return settings
+  } catch (error) {
+    console.error("Error fetching site settings:", error)
+    return null
+  }
 })
