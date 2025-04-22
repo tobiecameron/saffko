@@ -7,21 +7,7 @@ export default async function Home() {
   return (
     <div className="flex min-h-screen w-full flex-col items-center justify-center bg-black center-container">
       <div className="flex flex-col items-center justify-center logo-container">
-        {/* Optional: Display site title above the logo */}
-        {siteSettings?.title && (
-          <h1
-            className="mb-8 text-2xl font-bold text-white"
-            style={{
-              marginBottom: "2rem",
-              fontSize: "1.5rem",
-              fontWeight: "bold",
-              color: "white",
-            }}
-          >
-            {siteSettings.title}
-          </h1>
-        )}
-
+        {/* Logo */}
         {siteSettings?.logo?.svgFile?.asset?.url ? (
           <img
             src={siteSettings.logo.svgFile.asset.url || "/placeholder.svg"}
@@ -37,11 +23,27 @@ export default async function Home() {
           </div>
         )}
 
-        {siteSettings?.logoText && (
-          <div
-            className="mt-[30px] font-mono text-[0.85rem] text-white"
+        {/* Site Title */}
+        {/* {siteSettings?.title && (
+          <h1
+            className="mt-[30px] text-xl font-bold text-white"
             style={{
               marginTop: "30px",
+              fontSize: "1.25rem",
+              fontWeight: "bold",
+              color: "white",
+            }}
+          >
+            {siteSettings.title}
+          </h1>
+        )} */}
+
+        {/* Logo Text */}
+        {siteSettings?.logoText && (
+          <div
+            className="mt-4 font-mono text-[0.85rem] text-white"
+            style={{
+              marginTop: "1rem",
               fontFamily: "monospace",
               fontSize: "0.85rem",
               color: "white",
