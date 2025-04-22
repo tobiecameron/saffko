@@ -43,7 +43,7 @@ export default async function Home() {
           <div
             className="mt-4 font-mono text-[0.85rem] text-white"
             style={{
-              marginTop: "1rem",
+              marginTop: "3rem",
               fontFamily: "monospace",
               fontSize: "0.85rem",
               color: "white",
