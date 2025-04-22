@@ -24,27 +24,12 @@ export default async function Home() {
           </div>
         )}
 
-        {/* Site Title */}
-        {siteSettings?.title && siteSettings.title.trim() !== "" && (
-          // <h1
-          //   className="mt-[30px] text-xl font-bold text-white site-title"
-          //   style={{
-          //     marginTop: "30px",
-          //     fontSize: "1.25rem",
-          //     fontWeight: "bold",
-          //     color: "white",
-          //   }}
-          // >
-          //   {siteSettings.title}
-          // </h1>
-        )}
-
         {/* Logo Text - Only render if not empty */}
         {siteSettings?.logoText && siteSettings.logoText.trim() !== "" && (
           <div
-            className="mt-4 font-mono text-[0.85rem] text-white logo-text"
+            className="mt-[30px] font-mono text-[0.85rem] text-white logo-text"
             style={{
-              marginTop: "1rem",
+              marginTop: "30px",
               fontFamily: "monospace",
               fontSize: "0.85rem",
               color: "white",
@@ -56,7 +41,7 @@ export default async function Home() {
       </div>
 
       {/* Debug component - only visible in development */}
-      <DebugInfo data={siteSettings} />
+      {process.env.NODE_ENV !== "production" && <DebugInfo data={siteSettings} />}
     </div>
   )
 }

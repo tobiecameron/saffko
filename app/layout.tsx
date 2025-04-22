@@ -9,11 +9,21 @@ const inter = Inter({ subsets: ["latin"] })
 
 export async function generateMetadata(): Promise<Metadata> {
   const siteSettings = await getSiteSettings()
+  const siteTitle = siteSettings?.title || "BLOKHOUSE"
 
   return {
-    title: siteSettings?.title || "Next.js + Sanity",
-    description: "A simple website with Next.js and Sanity",
-    generator: "v0.dev",
+    title: siteTitle,
+    description: "design and engagment solutions",
+    openGraph: {
+      title: siteTitle,
+      description: "design and engagment solutions",
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: siteTitle,
+      description: "design and engagment solutions",
+    },
   }
 }
 
