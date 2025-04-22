@@ -38,6 +38,12 @@ export default {
         },
       ],
     },
+    {
+      name: "logoText",
+      title: "Logo Text",
+      type: "string",
+      description: "Text to display below the logo",
+    },
   ],
   preview: {
     select: {

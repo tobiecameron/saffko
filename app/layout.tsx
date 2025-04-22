@@ -3,13 +3,18 @@ import "./globals.css"
 import "./tailwind-fix.css"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
+import { getSiteSettings } from "@/lib/sanity"
 
 const inter = Inter({ subsets: ["latin"] })
 
-export const metadata: Metadata = {
-  title: "Next.js + Sanity",
-  description: "A simple website with Next.js and Sanity",
-  generator: "v0.dev",
+export async function generateMetadata(): Promise<Metadata> {
+  const siteSettings = await getSiteSettings()
+
+  return {
+    title: siteSettings?.title || "Next.js + Sanity",
+    description: "A simple website with Next.js and Sanity",
+    generator: "v0.dev",
+  }
 }
 
 export default function RootLayout({

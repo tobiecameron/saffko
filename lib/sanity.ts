@@ -63,6 +63,7 @@ export const getSiteSettings = cache(async () => {
   return client.fetch(`
     *[_type == "siteSettings"][0] {
       title,
+      logoText,
       logo {
         svgFile {
           asset->{
