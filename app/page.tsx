@@ -26,17 +26,17 @@ export default async function Home() {
 
         {/* Site Title */}
         {siteSettings?.title && siteSettings.title.trim() !== "" && (
-          <h1
-            className="mt-[30px] text-xl font-bold text-white site-title"
-            style={{
-              marginTop: "30px",
-              fontSize: "1.25rem",
-              fontWeight: "bold",
-              color: "white",
-            }}
-          >
-            {siteSettings.title}
-          </h1>
+          // <h1
+          //   className="mt-[30px] text-xl font-bold text-white site-title"
+          //   style={{
+          //     marginTop: "30px",
+          //     fontSize: "1.25rem",
+          //     fontWeight: "bold",
+          //     color: "white",
+          //   }}
+          // >
+          //   {siteSettings.title}
+          // </h1>
         )}
 
         {/* Logo Text - Only render if not empty */}
