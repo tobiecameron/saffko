@@ -1,5 +1,4 @@
 import { createClient } from "next-sanity"
-import { cache } from "react"
 
 const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID
 const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET || "production"
@@ -17,15 +16,35 @@ export const client = createClient({
   token: process.env.SANITY_API_TOKEN,
 })
 
-// Create cached versions of the functions to avoid duplicate requests
-export const getPosts = cache(async () => {
+// Create a local cache for data during build time
+const localCache = new Map()
+
+// Helper function to fetch with caching
+async function fetchWithCache(query: string, params?: any) {
+  const cacheKey = JSON.stringify({ query, params })
+
+  // Check if we have a cached result
+  if (localCache.has(cacheKey)) {
+    return localCache.get(cacheKey)
+  }
+
+  // Fetch fresh data
+  const result = await client.fetch(query, params)
+
+  // Store in cache
+  localCache.set(cacheKey, result)
+
+  return result
+}
+
+export async function getPosts() {
   if (!projectId) {
     // Return empty array if Sanity is not configured
     console.warn("Sanity project ID not configured")
     return []
   }
 
-  return client.fetch(`
+  return fetchWithCache(`
     *[_type == "post" && defined(slug.current)] | order(publishedAt desc) {
       _id,
       title,
@@ -34,16 +53,16 @@ export const getPosts = cache(async () => {
       excerpt
     }
   `)
-})
+}
 
-export const getPost = cache(async (slug: string) => {
+export async function getPost(slug: string) {
   if (!projectId) {
     // Return null if Sanity is not configured
     console.warn("Sanity project ID not configured")
     return null
   }
 
-  return client.fetch(
+  return fetchWithCache(
     `
     *[_type == "post" && slug.current == $slug][0] {
       _id,
@@ -56,9 +75,9 @@ export const getPost = cache(async (slug: string) => {
   `,
     { slug },
   )
-})
+}
 
-export const getSiteSettings = cache(async () => {
+export async function getSiteSettings() {
   if (!projectId) {
     // Return null if Sanity is not configured
     console.warn("Sanity project ID not configured")
@@ -66,7 +85,7 @@ export const getSiteSettings = cache(async () => {
   }
 
   try {
-    const settings = await client.fetch(`
+    const settings = await fetchWithCache(`
       *[_type == "siteSettings"][0] {
         title,
         logoText,
@@ -88,4 +107,4 @@ export const getSiteSettings = cache(async () => {
     console.error("Error fetching site settings:", error)
     return null
   }
-})
+}

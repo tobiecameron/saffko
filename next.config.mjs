@@ -15,6 +15,10 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  // Add environment variables with defaults for build time
+  env: {
+    NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL || 'https://blokhouse.xyz',
+  }
 };
 
 export default nextConfig;

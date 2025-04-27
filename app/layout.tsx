@@ -11,18 +11,20 @@ export async function generateMetadata(): Promise<Metadata> {
   const siteSettings = await getSiteSettings()
   const siteTitle = siteSettings?.title || "BLOKHOUSE"
 
+  // Add metadataBase to fix the warning during build
   return {
     title: siteTitle,
-    description: "design and engagment solutions",
+    description: "design and engagement solutions",
+    metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://blokhouse.xyz"),
     openGraph: {
       title: siteTitle,
-      description: "design and engagment solutions",
+      description: "design and engagement solutions",
       type: "website",
     },
     twitter: {
       card: "summary_large_image",
       title: siteTitle,
-      description: "design and engagment solutions",
+      description: "design and engagement solutions",
     },
   }
 }
