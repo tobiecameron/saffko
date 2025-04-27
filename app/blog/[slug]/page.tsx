@@ -29,11 +29,11 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
           <div className="prose prose-invert max-w-none">{post.content && <PortableText value={post.content} />}</div>
         </article>
 
-        {/* Email address at the bottom */}
-        <div className="text-center mt-12 pb-4 text-[0.85rem] text-white font-mono">
-          <Link href="mailto:t@blokhouse.xyz" className="hover:text-gray-300 transition-colors">
-            t@blokhouse.xyz
-          </Link>
+        {/* Email address at the bottom - updated to hello@blokhouse.xyz and 50% darker */}
+        <div className="text-center mt-12 pb-4 font-mono text-[0.85rem]" style={{ color: "rgba(255, 255, 255, 0.5)" }}>
+          <a href="mailto:hello@blokhouse.xyz" style={{ color: "rgba(255, 255, 255, 0.5)", textDecoration: "none" }}>
+            hello@blokhouse.xyz
+          </a>
         </div>
       </div>
     </main>

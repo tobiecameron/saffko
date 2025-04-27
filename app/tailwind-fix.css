@@ -8,6 +8,8 @@
   background-color: black;
   overflow-x: hidden;
   position: relative;
+  margin: 0;
+  padding: 0;
 }
 
 .logo-container {
@@ -31,10 +33,38 @@
   color: white;
 }
 
-/* Fix for horizontal scrolling */
+/* Fix for horizontal scrolling - enhanced to prevent any scrollbars */
 html,
 body {
-  overflow-x: hidden;
+  overflow: hidden;
   width: 100%;
-  max-width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+* {
+  box-sizing: inherit;
+}
+
+/* Email address styles - updated to be 50% darker */
+.email-container {
+  position: absolute;
+  bottom: 16px;
+  width: 100%;
+  text-align: center;
+  font-family: monospace;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.5); /* 50% darker */
+  padding-bottom: 8px; /* Add padding to prevent cutoff */
+}
+
+.email-link {
+  color: rgba(255, 255, 255, 0.5); /* 50% darker */
+  text-decoration: none;
+}
+
+.email-link:hover {
+  color: rgba(255, 255, 255, 0.7); /* Slightly brighter on hover */
 }
