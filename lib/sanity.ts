@@ -5,11 +5,16 @@ const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID
 const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET || "production"
 const apiVersion = process.env.NEXT_PUBLIC_SANITY_API_VERSION || "2023-05-03"
 
+// Allow disabling CDN via env var for immediate updates when needed
+const useCdn = process.env.SANITY_USE_CDN !== "false" && process.env.NODE_ENV === "production"
+
 export const client = createClient({
   projectId,
   dataset,
   apiVersion,
-  useCdn: process.env.NODE_ENV === "production",
+  useCdn,
+  // Add token for preview mode if available
+  token: process.env.SANITY_API_TOKEN,
 })
 
 // Create cached versions of the functions to avoid duplicate requests

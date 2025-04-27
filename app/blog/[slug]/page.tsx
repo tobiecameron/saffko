@@ -1,3 +1,5 @@
+export const revalidate = 60 // Revalidate at most once per minute
+
 import { getPost } from "@/lib/sanity"
 import Link from "next/link"
 import { notFound } from "next/navigation"
@@ -26,6 +28,13 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
 
           <div className="prose prose-invert max-w-none">{post.content && <PortableText value={post.content} />}</div>
         </article>
+
+        {/* Email address at the bottom */}
+        <div className="text-center mt-12 pb-4 text-[0.85rem] text-white font-mono">
+          <Link href="mailto:t@blokhouse.xyz" className="hover:text-gray-300 transition-colors">
+            t@blokhouse.xyz
+          </Link>
+        </div>
       </div>
     </main>
   )

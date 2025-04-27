@@ -1,6 +1,9 @@
+export const revalidate = 60 // Revalidate at most once per minute
+
 import { getSiteSettings } from "@/lib/sanity"
 import Image from "next/image"
 import DebugInfo from "@/components/debug-info"
+import Link from "next/link"
 
 export default async function Home() {
   const siteSettings = await getSiteSettings()
@@ -38,6 +41,13 @@ export default async function Home() {
             {siteSettings.logoText}
           </div>
         )}
+      </div>
+
+      {/* Email address at the bottom */}
+      <div className="fixed bottom-4 text-[0.85rem] text-white font-mono">
+        <Link href="mailto:t@blokhouse.xyz" className="hover:text-gray-300 transition-colors">
+          t@blokhouse.xyz
+        </Link>
       </div>
 
       {/* Debug component - only visible in development */}

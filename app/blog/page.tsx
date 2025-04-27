@@ -1,3 +1,5 @@
+export const revalidate = 60 // Revalidate at most once per minute
+
 import { getPosts } from "@/lib/sanity"
 import Link from "next/link"
 
@@ -5,7 +7,7 @@ export default async function BlogPage() {
   const posts = await getPosts()
 
   return (
-    <main className="min-h-screen p-8 bg-black">
+    <main className="min-h-screen p-8 bg-black relative">
       <div className="max-w-4xl mx-auto">
         <h1 className="text-3xl font-bold mb-8">Blog</h1>
 
@@ -32,6 +34,13 @@ export default async function BlogPage() {
         ) : (
           <p className="text-center py-10 text-gray-400">No blog posts found.</p>
         )}
+      </div>
+
+      {/* Email address at the bottom */}
+      <div className="text-center mt-12 pb-4 text-[0.85rem] text-white font-mono">
+        <Link href="mailto:t@blokhouse.xyz" className="hover:text-gray-300 transition-colors">
+          t@blokhouse.xyz
+        </Link>
       </div>
     </main>
   )
