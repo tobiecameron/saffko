@@ -18,14 +18,16 @@ export const client = createClient({
 
 // Create a local cache for data during build time
 const localCache = new Map()
-const cacheEnabled = process.env.NODE_ENV === "production"
+
+// Cache control - default to enabled in production, disabled in development
+let isCacheEnabled = process.env.NODE_ENV === "production" && process.env.DISABLE_SANITY_CACHE !== "true"
 
 // Helper function to fetch with caching
 async function fetchWithCache(query: string, params?: any) {
   const cacheKey = JSON.stringify({ query, params })
 
   // Check if we have a cached result and caching is enabled
-  if (cacheEnabled && localCache.has(cacheKey)) {
+  if (isCacheEnabled && localCache.has(cacheKey)) {
     console.log("Using cached data for:", { query, params })
     return localCache.get(cacheKey)
   }
@@ -36,7 +38,7 @@ async function fetchWithCache(query: string, params?: any) {
   const result = await client.fetch(query, params)
 
   // Store in cache if caching is enabled
-  if (cacheEnabled) {
+  if (isCacheEnabled) {
     localCache.set(cacheKey, result)
   }
 
@@ -49,6 +51,29 @@ export function clearSanityCache() {
   localCache.clear()
   console.log(`Cleared Sanity cache (${cacheSize} items)`)
   return cacheSize
+}
+
+// Functions to disable and enable cache
+export function disableSanityCache() {
+  const wasEnabled = isCacheEnabled
+  isCacheEnabled = false
+  console.log("Sanity cache disabled")
+  return wasEnabled
+}
+
+export function enableSanityCache() {
+  const wasDisabled = !isCacheEnabled
+  isCacheEnabled = true
+  console.log("Sanity cache enabled")
+  return wasDisabled
+}
+
+// Get current cache status
+export function getSanityCacheStatus() {
+  return {
+    enabled: isCacheEnabled,
+    size: localCache.size,
+  }
 }
 
 export async function getPosts() {
