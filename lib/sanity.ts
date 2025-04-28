@@ -18,23 +18,37 @@ export const client = createClient({
 
 // Create a local cache for data during build time
 const localCache = new Map()
+const cacheEnabled = process.env.NODE_ENV === "production"
 
 // Helper function to fetch with caching
 async function fetchWithCache(query: string, params?: any) {
   const cacheKey = JSON.stringify({ query, params })
 
-  // Check if we have a cached result
-  if (localCache.has(cacheKey)) {
+  // Check if we have a cached result and caching is enabled
+  if (cacheEnabled && localCache.has(cacheKey)) {
+    console.log("Using cached data for:", { query, params })
     return localCache.get(cacheKey)
   }
+
+  console.log("Fetching fresh data for:", { query, params })
 
   // Fetch fresh data
   const result = await client.fetch(query, params)
 
-  // Store in cache
-  localCache.set(cacheKey, result)
+  // Store in cache if caching is enabled
+  if (cacheEnabled) {
+    localCache.set(cacheKey, result)
+  }
 
   return result
+}
+
+// Add a function to clear the cache
+export function clearSanityCache() {
+  const cacheSize = localCache.size
+  localCache.clear()
+  console.log(`Cleared Sanity cache (${cacheSize} items)`)
+  return cacheSize
 }
 
 export async function getPosts() {

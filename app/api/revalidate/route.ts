@@ -11,6 +11,10 @@ export async function POST(request: NextRequest) {
     // Validate the request if you have a secret
     const secret = request.headers.get("x-webhook-secret")
     if (WEBHOOK_SECRET && secret !== WEBHOOK_SECRET) {
+      console.error("Invalid webhook secret", {
+        expected: WEBHOOK_SECRET,
+        received: secret,
+      })
       return NextResponse.json({ message: "Invalid secret" }, { status: 401 })
     }
 
