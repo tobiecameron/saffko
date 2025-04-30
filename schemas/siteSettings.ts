@@ -44,6 +44,32 @@ export default {
       type: "string",
       description: "Text to display below the logo",
     },
+    {
+      name: "favicon",
+      title: "Favicon",
+      type: "object",
+      description: "Upload favicon files for the site",
+      fields: [
+        {
+          name: "mainIcon",
+          title: "Main Favicon",
+          type: "image",
+          description: "Upload a square image (at least 32x32px, preferably 512x512px)",
+          options: {
+            accept: "image/png,image/jpeg,image/svg+xml",
+          },
+        },
+        {
+          name: "appleTouchIcon",
+          title: "Apple Touch Icon",
+          type: "image",
+          description: "Optional: Upload a square image for Apple devices (180x180px)",
+          options: {
+            accept: "image/png",
+          },
+        },
+      ],
+    },
   ],
   preview: {
     select: {

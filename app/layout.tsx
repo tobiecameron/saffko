@@ -11,6 +11,10 @@ export async function generateMetadata(): Promise<Metadata> {
   const siteSettings = await getSiteSettings()
   const siteTitle = siteSettings?.title || "BLOKHOUSE"
 
+  // Get favicon URLs if they exist
+  const faviconUrl = siteSettings?.favicon?.mainIcon?.asset?.url
+  const appleTouchIconUrl = siteSettings?.favicon?.appleTouchIcon?.asset?.url
+
   // Add metadataBase to fix the warning during build
   return {
     title: siteTitle,
@@ -25,6 +29,11 @@ export async function generateMetadata(): Promise<Metadata> {
       card: "summary_large_image",
       title: siteTitle,
       description: "design and engagement solutions",
+    },
+    // Add favicon icons if they exist
+    icons: {
+      icon: faviconUrl ? [{ url: faviconUrl }] : undefined,
+      apple: appleTouchIconUrl ? { url: appleTouchIconUrl } : undefined,
     },
   }
 }

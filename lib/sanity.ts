@@ -136,6 +136,24 @@ export async function getSiteSettings() {
           },
           width,
           height
+        },
+        favicon {
+          mainIcon {
+            asset->{
+              url,
+              metadata {
+                dimensions
+              }
+            }
+          },
+          appleTouchIcon {
+            asset->{
+              url,
+              metadata {
+                dimensions
+              }
+            }
+          }
         }
       }
     `)
