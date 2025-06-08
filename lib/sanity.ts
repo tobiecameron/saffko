@@ -1,20 +1,26 @@
 import { createClient } from "next-sanity"
 
-const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID
-const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET || "production"
+const projectId = "z3tni9rr"
+const dataset = "production"
 const apiVersion = process.env.NEXT_PUBLIC_SANITY_API_VERSION || "2023-05-03"
 
 // Allow disabling CDN via env var for immediate updates when needed
 const useCdn = process.env.SANITY_USE_CDN !== "false" && process.env.NODE_ENV === "production"
 
-export const client = createClient({
-  projectId,
-  dataset,
-  apiVersion,
-  useCdn,
-  // Add token for preview mode if available
-  token: process.env.SANITY_API_TOKEN,
-})
+export const client = projectId
+  ? createClient({
+      projectId,
+      dataset,
+      apiVersion,
+      useCdn,
+      // Add token for preview mode if available
+      token: process.env.SANITY_API_TOKEN,
+    })
+  : null
+
+if (!projectId) {
+  console.warn("⚠️ Sanity client not initialized: projectId is missing.")
+}
 
 // Create a local cache for data during build time
 const localCache = new Map()
@@ -35,10 +41,10 @@ async function fetchWithCache(query: string, params?: any) {
   console.log("Fetching fresh data for:", { query, params })
 
   // Fetch fresh data
-  const result = await client.fetch(query, params)
+  const result = await client?.fetch(query, params)
 
   // Store in cache if caching is enabled
-  if (isCacheEnabled) {
+  if (isCacheEnabled && result !== undefined) {
     localCache.set(cacheKey, result)
   }
 
