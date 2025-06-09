@@ -24,7 +24,7 @@ export async function POST(request: NextRequest) {
     console.log("Revalidation triggered for:", { _type, _id, slug })
 
     // Revalidate specific paths based on document type
-    if (_type === "siteSettings") {
+    if (_type === "siteSettings" || _type === "homePage") {
       revalidatePath("/")
       console.log("Revalidated home page")
     }
@@ -50,7 +50,7 @@ export async function POST(request: NextRequest) {
       revalidated: true,
       now: Date.now(),
       paths:
-        _type === "siteSettings"
+        _type === "siteSettings" || _type === "homePage"
           ? ["/"]
           : _type === "post"
             ? ["/blog", slug?.current ? `/blog/${slug.current}` : null].filter(Boolean)

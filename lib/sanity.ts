@@ -135,10 +135,20 @@ export async function getSiteSettings() {
         title,
         logoText,
         logo {
+          logoType,
           svgFile {
             asset->{
               url
             }
+          },
+          imageFile {
+            asset->{
+              url,
+              metadata {
+                dimensions
+              }
+            },
+            alt
           },
           width,
           height
@@ -170,4 +180,122 @@ export async function getSiteSettings() {
     console.error("Error fetching site settings:", error)
     return null
   }
+}
+
+export async function getHomePageContent() {
+  if (!projectId) {
+    console.warn("Sanity project ID not configured")
+    return null
+  }
+
+  try {
+    const content = await fetchWithCache(`
+      *[_type == "homePage"][0] {
+        heroSection,
+        contentSections[] {
+          _type,
+          _type == "textSection" => {
+            heading,
+            content,
+            backgroundColor,
+            textColor
+          },
+          _type == "imageSection" => {
+            image {
+              asset->{
+                url,
+                metadata {
+                  dimensions
+                }
+              },
+              alt
+            },
+            caption,
+            size
+          },
+          _type == "ctaSection" => {
+            heading,
+            description,
+            buttons[] {
+              text,
+              url,
+              style
+            }
+          }
+        },
+        seo
+      }
+    `)
+
+    console.log("Fetched home page content:", content)
+    return content
+  } catch (error) {
+    console.error("Error fetching home page content:", error)
+    return null
+  }
+}
+
+export async function getFeaturedWorkItems() {
+  if (!projectId) {
+    console.warn("Sanity project ID not configured")
+    return []
+  }
+
+  return fetchWithCache(`
+    *[_type == "workItem" && featured == true] | order(completedAt desc) {
+      _id,
+      title,
+      "slug": slug.current,
+      excerpt,
+      "image": mainImage.asset->url,
+      client,
+      completedAt,
+      tags
+    }
+  `)
+}
+
+export async function getAllWorkItems() {
+  if (!projectId) {
+    console.warn("Sanity project ID not configured")
+    return []
+  }
+
+  return fetchWithCache(`
+    *[_type == "workItem"] | order(completedAt desc) {
+      _id,
+      title,
+      "slug": slug.current,
+      excerpt,
+      "image": mainImage.asset->url,
+      client,
+      completedAt,
+      tags
+    }
+  `)
+}
+
+export async function getWorkItem(slug: string) {
+  if (!projectId) {
+    console.warn("Sanity project ID not configured")
+    return null
+  }
+
+  return fetchWithCache(
+    `
+    *[_type == "workItem" && slug.current == $slug][0] {
+      _id,
+      title,
+      "slug": slug.current,
+      "image": mainImage.asset->url,
+      "imageAlt": mainImage.alt,
+      excerpt,
+      client,
+      completedAt,
+      tags,
+      content
+    }
+  `,
+    { slug },
+  )
 }

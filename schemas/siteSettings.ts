@@ -14,6 +14,19 @@ export default {
       type: "object",
       fields: [
         {
+          name: "logoType",
+          title: "Logo Type",
+          type: "string",
+          options: {
+            list: [
+              { title: "SVG File", value: "svg" },
+              { title: "Image", value: "image" },
+            ],
+          },
+          initialValue: "image",
+          description: "Choose whether to use an SVG file or an image for your logo",
+        },
+        {
           name: "svgFile",
           title: "SVG Logo",
           type: "file",
@@ -21,6 +34,25 @@ export default {
           options: {
             accept: "image/svg+xml",
           },
+          hidden: ({ parent }: any) => parent?.logoType !== "svg",
+        },
+        {
+          name: "imageFile",
+          title: "Logo Image",
+          type: "image",
+          description: "Upload your logo image (PNG, JPG, etc.)",
+          options: {
+            hotspot: true,
+          },
+          fields: [
+            {
+              name: "alt",
+              title: "Alt Text",
+              type: "string",
+              description: "Alternative text for the logo",
+            },
+          ],
+          hidden: ({ parent }: any) => parent?.logoType !== "image",
         },
         {
           name: "width",
@@ -28,6 +60,7 @@ export default {
           type: "number",
           validation: (Rule: any) => Rule.positive(),
           initialValue: 200,
+          description: "Display width of the logo",
         },
         {
           name: "height",
@@ -35,6 +68,7 @@ export default {
           type: "number",
           validation: (Rule: any) => Rule.positive(),
           initialValue: 200,
+          description: "Display height of the logo",
         },
       ],
     },
