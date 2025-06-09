@@ -93,14 +93,14 @@ export default async function Home() {
       </div>
 
       {/* Navigation Links */}
-      <div className="mt-8 flex gap-6">
+      {/* <div className="mt-8 flex gap-6">
         <Link href="/blog" className="text-white hover:text-gray-300 transition-colors">
           Blog
         </Link>
         <Link href="/work" className="text-white hover:text-gray-300 transition-colors">
           Work
         </Link>
-      </div>
+      </div> */}
 
       {/* Home Page Content */}
       <div className="mt-12 px-4 w-full max-w-6xl">
