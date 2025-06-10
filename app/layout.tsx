@@ -64,17 +64,17 @@ export async function generateMetadata(): Promise<Metadata> {
     console.error("Error generating metadata:", error)
     return {
       title: "saffko",
-      description: "design and engagement solutions",
+      description: "Efficient Saffron Growth and Extraction",
       metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://saffko.com"),
       openGraph: {
         title: "saffko",
-        description: "design and engagement solutions",
+        description: "Efficient Saffron Growth and Extraction",
         type: "website",
       },
       twitter: {
         card: "summary_large_image",
         title: "saffko",
-        description: "design and engagement solutions",
+        description: "Efficient Saffron Growth and Extraction",
       },
       generator: "v0.dev",
     }
