@@ -135,6 +135,11 @@ export async function getSiteSettings() {
         title,
         description,
         logoText,
+        socialLinks {
+          instagram,
+          twitter,
+          facebook
+        },
         metadata {
           metaTitle,
           ogTitle,

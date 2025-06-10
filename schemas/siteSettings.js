@@ -15,6 +15,10 @@ export default {
       name: "branding",
       title: "Branding",
     },
+    {
+      name: "social",
+      title: "Social Media",
+    },
   ],
   fields: [
     {
@@ -210,6 +214,33 @@ export default {
       type: "string",
       group: "branding",
       description: "Text to display below the logo",
+    },
+    {
+      name: "socialLinks",
+      title: "Social Media Links",
+      type: "object",
+      group: "social",
+      description: "Social media links displayed under the logo",
+      fields: [
+        {
+          name: "instagram",
+          title: "Instagram URL",
+          type: "url",
+          description: "Your Instagram profile URL (e.g., https://instagram.com/username)",
+        },
+        {
+          name: "twitter",
+          title: "X (Twitter) URL",
+          type: "url",
+          description: "Your X (Twitter) profile URL (e.g., https://x.com/username)",
+        },
+        {
+          name: "facebook",
+          title: "Facebook URL",
+          type: "url",
+          description: "Your Facebook page URL (e.g., https://facebook.com/username)",
+        },
+      ],
     },
     {
       name: "favicon",
