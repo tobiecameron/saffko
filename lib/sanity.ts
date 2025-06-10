@@ -133,7 +133,36 @@ export async function getSiteSettings() {
     const settings = await fetchWithCache(`
       *[_type == "siteSettings"][0] {
         title,
+        description,
         logoText,
+        metadata {
+          metaTitle,
+          ogTitle,
+          ogDescription,
+          ogType,
+          ogImage {
+            asset->{
+              url,
+              metadata {
+                dimensions
+              }
+            },
+            alt
+          },
+          twitterCard,
+          twitterTitle,
+          twitterDescription,
+          twitterImage {
+            asset->{
+              url,
+              metadata {
+                dimensions
+              }
+            },
+            alt
+          },
+          canonicalUrl
+        },
         logo {
           logoType,
           svgFile {
