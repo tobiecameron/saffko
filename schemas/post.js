@@ -7,7 +7,7 @@ export default {
       name: "title",
       title: "Title",
       type: "string",
-      validation: (Rule: any) => Rule.required(),
+      validation: (Rule) => Rule.required(),
     },
     {
       name: "slug",
@@ -17,7 +17,7 @@ export default {
         source: "title",
         maxLength: 96,
       },
-      validation: (Rule: any) => Rule.required(),
+      validation: (Rule) => Rule.required(),
     },
     {
       name: "publishedAt",
@@ -57,7 +57,7 @@ export default {
       title: "title",
       publishedAt: "publishedAt",
     },
-    prepare({ title, publishedAt }: any) {
+    prepare({ title, publishedAt }) {
       return {
         title,
         subtitle: publishedAt ? new Date(publishedAt).toLocaleDateString() : "Unpublished",

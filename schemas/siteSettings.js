@@ -34,7 +34,7 @@ export default {
           options: {
             accept: "image/svg+xml",
           },
-          hidden: ({ parent }: any) => parent?.logoType !== "svg",
+          hidden: ({ parent }) => parent?.logoType !== "svg",
         },
         {
           name: "imageFile",
@@ -52,13 +52,13 @@ export default {
               description: "Alternative text for the logo",
             },
           ],
-          hidden: ({ parent }: any) => parent?.logoType !== "image",
+          hidden: ({ parent }) => parent?.logoType !== "image",
         },
         {
           name: "width",
           title: "Width (px)",
           type: "number",
-          validation: (Rule: any) => Rule.positive(),
+          validation: (Rule) => Rule.positive(),
           initialValue: 200,
           description: "Display width of the logo",
         },
@@ -66,7 +66,7 @@ export default {
           name: "height",
           title: "Height (px)",
           type: "number",
-          validation: (Rule: any) => Rule.positive(),
+          validation: (Rule) => Rule.positive(),
           initialValue: 200,
           description: "Display height of the logo",
         },
@@ -109,7 +109,7 @@ export default {
     select: {
       title: "title",
     },
-    prepare({ title }: any) {
+    prepare({ title }) {
       return {
         title: title || "Site Settings",
       }

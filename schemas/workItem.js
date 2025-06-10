@@ -7,7 +7,7 @@ export default {
       name: "title",
       title: "Title",
       type: "string",
-      validation: (Rule: any) => Rule.required(),
+      validation: (Rule) => Rule.required(),
     },
     {
       name: "slug",
@@ -17,7 +17,7 @@ export default {
         source: "title",
         maxLength: 96,
       },
-      validation: (Rule: any) => Rule.required(),
+      validation: (Rule) => Rule.required(),
     },
     {
       name: "featured",
@@ -96,7 +96,7 @@ export default {
       media: "mainImage",
       client: "client",
     },
-    prepare({ title, media, client }: any) {
+    prepare({ title, media, client }) {
       return {
         title,
         subtitle: client ? `Client: ${client}` : "",

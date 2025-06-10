@@ -5,7 +5,6 @@ import Image from "next/image"
 import DebugInfo from "@/components/debug-info"
 import HomeContent from "@/components/home-content"
 import FeaturedContent from "@/components/featured-content"
-import Link from "next/link"
 
 export default async function Home() {
   const [siteSettings, homePageContent, featuredWorkItems] = await Promise.all([
@@ -70,56 +69,96 @@ export default async function Home() {
     return <Image src="/logo.png" alt="Logo" width={180} height={37} priority />
   }
 
-  return (
-    <div className="flex min-h-screen w-full flex-col items-center justify-center bg-black center-container">
-      <div className="flex flex-col items-center justify-center logo-container">
-        {/* Logo */}
-        {renderLogo()}
+  // Generate overlay classes based on CMS settings
+  const generateOverlayClasses = (overlaySettings: any) => {
+    if (!overlaySettings || overlaySettings.overlayType === "none") {
+      return ""
+    }
 
-        {/* Logo Text - Only render if not empty */}
-        {siteSettings?.logoText && siteSettings.logoText.trim() !== "" && (
-          <div
-            className="mt-[30px] font-mono text-[0.85rem] text-white logo-text"
+    const opacity = overlaySettings.overlayOpacity || 20
+    const color = overlaySettings.overlayColor || "black"
+
+    if (overlaySettings.overlayType === "gradient") {
+      const direction = overlaySettings.gradientDirection || "to-b"
+      const startOpacity = overlaySettings.gradientStartOpacity || 30
+      const endOpacity = overlaySettings.gradientEndOpacity || 60
+
+      return `bg-gradient-${direction} from-${color}/${startOpacity} to-${color}/${endOpacity}`
+    }
+
+    return `bg-${color}/${opacity}`
+  }
+
+  // Generate image opacity
+  const generateImageOpacity = (overlaySettings: any) => {
+    const opacity = (overlaySettings?.imageOpacity || 95) / 100
+    return opacity
+  }
+
+  const overlayClasses = generateOverlayClasses(homePageContent?.backgroundOverlay)
+  const imageOpacity = generateImageOpacity(homePageContent?.backgroundOverlay)
+
+  return (
+    <div className="relative flex min-h-screen w-full flex-col items-center justify-center center-container">
+      {/* Background Image */}
+      {homePageContent?.backgroundImage?.asset?.url && (
+        <div className="absolute inset-0 z-0">
+          <Image
+            src={homePageContent.backgroundImage.asset.url || "/placeholder.svg"}
+            alt={homePageContent.backgroundImage.alt || "Background"}
+            fill
             style={{
-              marginTop: "30px",
-              fontFamily: "monospace",
-              fontSize: "0.85rem",
-              color: "white",
+              objectFit: "cover",
+              opacity: imageOpacity,
             }}
-          >
-            {siteSettings.logoText}
-          </div>
+            priority
+          />
+          {/* Configurable overlay */}
+          {overlayClasses && <div className={`absolute inset-0 ${overlayClasses}`} />}
+        </div>
+      )}
+
+      {/* Content - removed bg-black/20 that was covering the background */}
+      <div className="relative z-10 flex min-h-screen w-full flex-col items-center justify-center">
+        <div className="flex flex-col items-center justify-center logo-container">
+          {/* Logo */}
+          {renderLogo()}
+
+          {/* Logo Text - Only render if not empty */}
+          {siteSettings?.logoText && siteSettings.logoText.trim() !== "" && (
+            <div
+              className="mt-[30px] font-mono text-[0.85rem] text-white logo-text drop-shadow-lg"
+              style={{
+                marginTop: "30px",
+                fontFamily: "monospace",
+                fontSize: "0.85rem",
+                color: "white",
+              }}
+            >
+              {siteSettings.logoText}
+            </div>
+          )}
+        </div>
+
+        {/* Home Page Content */}
+        <div className="mt-12 px-4 w-full max-w-6xl">
+          <HomeContent content={homePageContent} />
+        </div>
+
+        {/* Featured Work */}
+        {featuredItems.length > 0 && <FeaturedContent items={featuredItems} />}
+
+        <div className="email-container">
+          <a href="mailto:angus@ipmc.com.au" className="email-link drop-shadow-lg">
+            email us
+          </a>
+        </div>
+
+        {/* Debug component - only visible in development */}
+        {process.env.NODE_ENV !== "production" && (
+          <DebugInfo data={{ siteSettings, homePageContent, featuredWorkItems }} />
         )}
       </div>
-
-      {/* Navigation Links */}
-      {/* <div className="mt-8 flex gap-6">
-        <Link href="/blog" className="text-white hover:text-gray-300 transition-colors">
-          Blog
-        </Link>
-        <Link href="/work" className="text-white hover:text-gray-300 transition-colors">
-          Work
-        </Link>
-      </div> */}
-
-      {/* Home Page Content */}
-      <div className="mt-12 px-4 w-full max-w-6xl">
-        <HomeContent content={homePageContent} />
-      </div>
-
-      {/* Featured Work */}
-      {featuredItems.length > 0 && <FeaturedContent items={featuredItems} />}
-
-      <div className="email-container">
-        <a href="mailto:angus@ipmc.com.au" className="email-link">
-          email us
-        </a>
-      </div>
-
-      {/* Debug component - only visible in development */}
-      {process.env.NODE_ENV !== "production" && (
-        <DebugInfo data={{ siteSettings, homePageContent, featuredWorkItems }} />
-      )}
     </div>
   )
 }

@@ -191,6 +191,24 @@ export async function getHomePageContent() {
   try {
     const content = await fetchWithCache(`
       *[_type == "homePage"][0] {
+        backgroundImage {
+          asset->{
+            url,
+            metadata {
+              dimensions
+            }
+          },
+          alt
+        },
+        backgroundOverlay {
+          overlayType,
+          overlayColor,
+          overlayOpacity,
+          gradientDirection,
+          gradientStartOpacity,
+          gradientEndOpacity,
+          imageOpacity
+        },
         heroSection,
         contentSections[] {
           _type,
