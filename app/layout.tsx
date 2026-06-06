@@ -2,6 +2,7 @@ import type React from "react"
 import "./globals.css"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
+import Script from "next/script"
 import { Toaster } from "sonner"
 import { Analytics } from "@vercel/analytics/next"
 import { getSiteSettings } from "@/lib/sanity"
@@ -93,6 +94,13 @@ export default function RootLayout({
         {children}
         <Toaster />
         <Analytics />
+        <Script src="https://www.googletagmanager.com/gtag/js?id=G-TEJK42EQLH" strategy="afterInteractive" />
+        <Script id="google-analytics" strategy="afterInteractive">{`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-TEJK42EQLH');
+        `}</Script>
       </body>
     </html>
   )
