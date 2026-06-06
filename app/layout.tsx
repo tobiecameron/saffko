@@ -5,6 +5,7 @@ import "./tailwind-fix.css"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import { getSiteSettings } from "@/lib/sanity"
+import { Analytics } from "@vercel/analytics/next"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -91,6 +92,7 @@ export default function RootLayout({
     <html lang="en" style={{ overflow: "hidden" }}>
       <body className={inter.className} style={{ overflow: "hidden", margin: 0, padding: 0 }}>
         {children}
+        <Analytics />
       </body>
     </html>
   )
