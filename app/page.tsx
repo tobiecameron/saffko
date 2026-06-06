@@ -2,7 +2,6 @@ export const revalidate = 60 // Revalidate at most once per minute
 
 import { getSiteSettings, getHomePageContent, getFeaturedWorkItems } from "@/lib/sanity"
 import Image from "next/image"
-import DebugInfo from "@/components/debug-info"
 import HomeContent from "@/components/home-content"
 import FeaturedContent from "@/components/featured-content"
 
@@ -204,15 +203,11 @@ export default async function Home() {
         {featuredItems.length > 0 && <FeaturedContent items={featuredItems} />}
 
         <div className="email-container">
-          <a href="mailto:angus@ipmc.com.au" className="email-link drop-shadow-lg">
+          <a href="mailto:angus@ipmc.com.au" className="email-link font-mono text-[0.85rem] text-white drop-shadow-lg">
             email us
           </a>
         </div>
 
-        {/* Debug component - only visible in development */}
-        {process.env.NODE_ENV !== "production" && (
-          <DebugInfo data={{ siteSettings, homePageContent, featuredWorkItems }} />
-        )}
       </div>
     </div>
   )
